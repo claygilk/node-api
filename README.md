@@ -1,5 +1,34 @@
 # Node API Documentation
+```mermaid
 
+flowchart TD
+    %% Nodes
+    start[Start Application]
+    db_check{does .db file exist?}
+    db_bak{does .bak file exist?}
+    rename[rename .bak to .db]
+    sql{does sql script exist?}
+    run_sql[run sql script]
+    make_db[create new .db file]
+    spring[Finish Start-up]
+    
+    %% Edges
+    start--> db_check
+
+    db_check -->|Yes| spring
+    db_check -->|No| db_bak
+        
+    db_bak -->|Yes| rename
+    db_bak -->|No| sql
+
+    rename --> spring
+    
+    sql-->|Yes| run_sql
+    sql-->|No| make_db
+
+    run_sql --> spring
+    make_db --> spring
+```
 ## Maven Setup
 
 Because we don't have admin privileges on our Mac's the following must be run in order to run a global install with `npm`.
